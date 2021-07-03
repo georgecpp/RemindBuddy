@@ -7,7 +7,7 @@ public class TaskListActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return null;
+        return new TaskListFragment();
     }
 
 }
