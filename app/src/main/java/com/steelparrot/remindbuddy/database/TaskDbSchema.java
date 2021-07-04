@@ -1,7 +1,7 @@
 package com.steelparrot.remindbuddy.database;
 
 public class TaskDbSchema {
-    public static final class TaskTable {
+    public static final class TaskTable{
         public static final String NAME="tasks";
 
         public static final class Cols {

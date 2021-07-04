@@ -25,13 +25,13 @@ public class TaskCursorWrapper extends CursorWrapper {
         String date = getString(getColumnIndex(TaskTable.Cols.DATE));
         String time = getString(getColumnIndex(TaskTable.Cols.TIME));
 
-        SimpleDateFormat formatDDMMYYYY = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat formatHHMMSS = new SimpleDateFormat("HH:mm:ss");
+//        SimpleDateFormat formatDDMMYYYY = new SimpleDateFormat("dd/MM/yyyy");
+//        SimpleDateFormat formatHHMMSS = new SimpleDateFormat("HH:mm:ss");
 
-        Date dateTask = formatDDMMYYYY.parse(date);
-        Date timeOfTheDayTask = formatHHMMSS.parse(time);
+//        Date dateTask = formatDDMMYYYY.parse(date);
+//        Date timeOfTheDayTask = formatHHMMSS.parse(time);
 
-        Task task = new Task(UUID.fromString(uuidString),dateTask,timeOfTheDayTask);
+        Task task = new Task(UUID.fromString(uuidString),date,time);
         task.setTitle(title);
         task.setDescription(description);
         task.setCompleted(isCompleted!=0);

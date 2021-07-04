@@ -8,10 +8,10 @@ public class Task {
     private String mTitle;
     private String mDescription;
     private boolean mCompleted;
-    private Date mDate;
-    private Date mTime;
+    private String mDate;
+    private String mTime;
 
-    public Task(UUID id, Date dateTo, Date timeTo)
+    public Task(UUID id, String dateTo, String timeTo)
     {
         mID = id;
         mDate = dateTo;
@@ -50,19 +50,19 @@ public class Task {
         mCompleted = completed;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return mDate;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         mDate = date;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return mTime;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         mTime = time;
     }
 }
