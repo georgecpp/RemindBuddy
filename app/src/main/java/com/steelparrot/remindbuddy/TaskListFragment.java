@@ -73,7 +73,6 @@ public class TaskListFragment extends Fragment {
             public void onClick(View view) {
                 Date currdate = new Date();
                 Task task = new Task(UUID.randomUUID(),currdate.toString(),currdate.toString());
-                task.setTitle("task");
                 TaskHandler.get(getActivity()).addTask(task);
                 updateUI();
                 mCallbacks.onTaskSelected(task);
