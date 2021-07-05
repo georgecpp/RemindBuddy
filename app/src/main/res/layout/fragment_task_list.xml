@@ -6,9 +6,20 @@
     android:layout_height="match_parent"
     >
 
+    <TextView
+        android:id="@+id/current_date_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:text="@string/current_date_string"
+        android:layout_margin="5dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:id="@+id/task_recycler_view"
         android:scrollbars="vertical"/>
 <!--        android:cacheColorHint="@android:color/transparent"-->
@@ -18,8 +29,9 @@
         android:id="@+id/add_task_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        fab:fabSize="normal"
         android:layout_margin="20dp"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@drawable/ic_baseline_add_24"
         android:layout_gravity="bottom|right"
         />
 
