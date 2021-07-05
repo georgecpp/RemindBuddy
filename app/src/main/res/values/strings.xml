@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Remind Buddy</string>
+    <string name="task_date">Date To Fill</string>
+    <string name="task_time">Time of the day to fill</string>
+    <string name="task_title">Title</string>
+    <string name="task_description">Description</string>
 </resources>
