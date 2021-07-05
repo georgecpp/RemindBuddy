@@ -17,18 +17,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 
 public class TaskListFragment extends Fragment {
 
     private FloatingActionButton mAddTaskFAB;
+    private TextView mCurrentDateTextView;
     private RecyclerView mTaskRecyclerView;
     private TaskAdapter mAdapter;
     private Callbacks mCallbacks;
+    private String mCurrentDate;
 
 
     public interface Callbacks {
@@ -62,6 +68,10 @@ public class TaskListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
 
+        mCurrentDateTextView = (TextView) view.findViewById(R.id.current_date_view);
+        mCurrentDateTextView.setText(mCurrentDate);
+
+
         mTaskRecyclerView = (RecyclerView) view.findViewById(R.id.task_recycler_view);
         mTaskRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setTaskRecyclerViewItemTouchListener();
@@ -71,8 +81,10 @@ public class TaskListFragment extends Fragment {
         mAddTaskFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Date currdate = new Date();
-                Task task = new Task(UUID.randomUUID(),currdate.toString(),currdate.toString());
+                String currentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(new Date());
+                String currentTime = new SimpleDateFormat("h:mm a", Locale.getDefault()).format(new Date());
+                Task task = new Task(UUID.randomUUID(),currentDate,currentTime);
+                task.setTitle("Unnamed_Activity");
                 TaskHandler.get(getActivity()).addTask(task);
                 updateUI();
                 mCallbacks.onTaskSelected(task);
@@ -102,7 +114,7 @@ public class TaskListFragment extends Fragment {
         public void bind(Task task) {
             mTask = task;
             mTitleTextView.setText(mTask.getTitle());
-            mDatetimeTextView.setText(mTask.getDate().toString());
+            mDatetimeTextView.setText(mTask.getTime());
         }
 
         @Override
@@ -160,6 +172,7 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mCurrentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(new Date());
     }
 
     @Override
