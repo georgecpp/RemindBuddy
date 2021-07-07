@@ -22,4 +22,6 @@ public class TaskListActivity extends SingleFragmentActivity implements TaskList
     public void onTaskUpdated(Task task) {
         // TO IMPLEMENT WHEN EDIT TASK IN EDITOR FRAGMENT.
     }
+
+
 }
