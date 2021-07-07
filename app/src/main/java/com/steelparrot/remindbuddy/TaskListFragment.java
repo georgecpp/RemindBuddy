@@ -1,6 +1,9 @@
 package com.steelparrot.remindbuddy;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +39,20 @@ public class TaskListFragment extends Fragment {
     private Callbacks mCallbacks;
     private String mCurrentDate;
 
+
+    public void updateCurrentDateUI() {
+        mCurrentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(new Date());
+        mCurrentDateTextView.setText(mCurrentDate);
+    }
+
+    private BroadcastReceiver mDateChangedReceiver = new DateChangedReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(Intent.ACTION_DATE_CHANGED)) {
+                updateCurrentDateUI();
+            }
+        }
+    };
 
     public interface Callbacks {
         void onTaskSelected(Task task);
@@ -176,9 +193,21 @@ public class TaskListFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        getActivity().registerReceiver(mDateChangedReceiver, new IntentFilter(Intent.ACTION_DATE_CHANGED));
         updateUI();
+    }
+
+    @Override
+    public void onPause() {
+        getActivity().unregisterReceiver(mDateChangedReceiver);
+        super.onPause();
     }
 
     @Override

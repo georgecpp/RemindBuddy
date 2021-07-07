@@ -9,6 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RemindBuddy">
+
+        <receiver android:name=".DateChangedReceiver"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".TaskListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
