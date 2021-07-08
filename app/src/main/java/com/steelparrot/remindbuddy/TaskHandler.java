@@ -76,6 +76,25 @@ public class TaskHandler {
         return tasks;
     }
 
+    public List<Task> getTasksForToday(String currDate) {
+        List<Task> tasks = new ArrayList<>();
+
+        TaskCursorWrapper cursorWrapper = queryTasks(TaskTable.Cols.DATE + " =?", new String[] {currDate});
+        try {
+            cursorWrapper.moveToFirst();
+            while (!cursorWrapper.isAfterLast()) {
+                tasks.add(cursorWrapper.getTask());
+                cursorWrapper.moveToNext();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } finally {
+            cursorWrapper.close();
+        }
+
+        return tasks;
+    }
+
 
 
     private TaskHandler(Context context) {
@@ -97,8 +116,8 @@ public class TaskHandler {
         values.put(TaskTable.Cols.TITLE,task.getTitle());
         values.put(TaskTable.Cols.DESCRIPTION,task.getDescription());
         values.put(TaskTable.Cols.COMPLETED, task.isCompleted()? 1 : 0);
-        values.put(TaskTable.Cols.DATE, task.getDate().toString());
-        values.put(TaskTable.Cols.TIME,task.getTime().toString());
+        values.put(TaskTable.Cols.DATE, task.getDate());
+        values.put(TaskTable.Cols.TIME,task.getTime());
 
         return values;
     }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,6 +89,22 @@ public class TaskListFragment extends Fragment {
 
         mCurrentDateTextView = (TextView) view.findViewById(R.id.current_date_view);
         mCurrentDateTextView.setText(mCurrentDate);
+        mCurrentDateTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                    updateUI();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
 
         mTaskRecyclerView = (RecyclerView) view.findViewById(R.id.task_recycler_view);
@@ -173,7 +191,7 @@ public class TaskListFragment extends Fragment {
 
     public void updateUI() {
         TaskHandler taskHandler = TaskHandler.get(getActivity());
-        List<Task> tasks = taskHandler.getTasks();
+        List<Task> tasks = taskHandler.getTasksForToday(mCurrentDate);
 
         if(mAdapter == null) {
             mAdapter = new TaskAdapter(tasks);
@@ -185,6 +203,7 @@ public class TaskListFragment extends Fragment {
         }
 
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
