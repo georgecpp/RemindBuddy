@@ -1,21 +1,25 @@
 package com.steelparrot.remindbuddy;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,8 +38,14 @@ import java.util.UUID;
 
 public class TaskListFragment extends Fragment {
 
+    private static final String DIALOG_DATE = "DialogDate";
+
+    private static final int REQUEST_DATE = 0;
+
     private FloatingActionButton mAddTaskFAB;
     private TextView mCurrentDateTextView;
+    private ImageButton mDateNextButton;
+    private ImageButton mDatePrevButton;
     private RecyclerView mTaskRecyclerView;
     private TaskAdapter mAdapter;
     private Callbacks mCallbacks;
@@ -82,6 +92,13 @@ public class TaskListFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(mTaskRecyclerView);
     }
 
+    private Date addDays(Date date, int days) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, days);
+        return calendar.getTime();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -106,6 +123,21 @@ public class TaskListFragment extends Fragment {
             }
         });
 
+        mCurrentDateTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    Date date = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).parse(mCurrentDate);
+                    DatePickerFragment dialog = DatePickerFragment.newInstance(date);
+                    dialog.setTargetFragment(TaskListFragment.this, REQUEST_DATE);
+                    dialog.show(fragmentManager, DIALOG_DATE);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         mTaskRecyclerView = (RecyclerView) view.findViewById(R.id.task_recycler_view);
         mTaskRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -116,9 +148,9 @@ public class TaskListFragment extends Fragment {
         mAddTaskFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String currentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(new Date());
+               // String currentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(new Date());
                 String currentTime = new SimpleDateFormat("h:mm a", Locale.getDefault()).format(new Date());
-                Task task = new Task(UUID.randomUUID(),currentDate,currentTime);
+                Task task = new Task(UUID.randomUUID(),mCurrentDate,currentTime);
                 task.setTitle("Unnamed_Activity");
                 TaskHandler.get(getActivity()).addTask(task);
                 updateUI();
@@ -127,9 +159,55 @@ public class TaskListFragment extends Fragment {
         });
 
 
+
+        mDatePrevButton = (ImageButton) view.findViewById(R.id.date_prev_button);
+        mDatePrevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Date currdate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).parse(mCurrentDate);
+                    mCurrentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(addDays(currdate,-1));
+                    mCurrentDateTextView.setText(mCurrentDate);
+                    updateUI();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        mDateNextButton = (ImageButton) view.findViewById(R.id.date_next_button);
+        mDateNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Date currdate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).parse(mCurrentDate);
+                    mCurrentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(addDays(currdate,1));
+                    mCurrentDateTextView.setText(mCurrentDate);
+                    updateUI();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode!= Activity.RESULT_OK) {
+            return;
+        }
+
+        if(requestCode == REQUEST_DATE) {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mCurrentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(date);
+            mCurrentDateTextView.setText(mCurrentDate);
+            updateUI();
+        }
+    }
 
     private class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
