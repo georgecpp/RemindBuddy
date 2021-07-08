@@ -2,20 +2,56 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
-    <TextView
-        android:id="@+id/current_date_view"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|center"
-        android:text="@string/current_date_string"
-        android:layout_margin="5dp"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        />
+        android:orientation="horizontal"
+        >
+
+        <ImageButton
+            android:id="@+id/date_next_button"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            fab:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+            fab:layout_constraintEnd_toEndOf="parent"
+            fab:layout_constraintStart_toEndOf="@+id/current_date_view"
+            fab:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/current_date_view"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:layout_margin="5dp"
+            android:text="@string/current_date_string"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            fab:layout_constraintBottom_toBottomOf="parent"
+            fab:layout_constraintEnd_toEndOf="parent"
+            fab:layout_constraintStart_toStartOf="parent"
+            fab:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/date_prev_button"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_arrow_back_ios_24"
+            fab:layout_constraintBottom_toBottomOf="parent"
+            fab:layout_constraintEnd_toStartOf="@+id/current_date_view"
+            fab:layout_constraintStart_toStartOf="parent"
+            fab:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

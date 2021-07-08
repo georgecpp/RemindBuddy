@@ -5,4 +5,5 @@
     <string name="task_title">Title</string>
     <string name="task_description">Description</string>
     <string name="current_date_string">Current Date</string>
+    <string name="date_picker_title">Choose a date</string>
 </resources>
