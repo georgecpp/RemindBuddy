@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -213,6 +214,7 @@ public class TaskListFragment extends Fragment {
 
         private TextView mTitleTextView;
         private TextView mDatetimeTextView;
+        private ImageView mSolvedTaskImageView;
         private Task mTask;
 
         public TaskHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -221,6 +223,8 @@ public class TaskListFragment extends Fragment {
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.task_title);
             mDatetimeTextView = (TextView) itemView.findViewById(R.id.task_datetime);
+            mSolvedTaskImageView = (ImageView) itemView.findViewById(R.id.task_solved);
+            mSolvedTaskImageView.setFocusable(true);
 
         }
 
@@ -228,6 +232,12 @@ public class TaskListFragment extends Fragment {
             mTask = task;
             mTitleTextView.setText(mTask.getTitle());
             mDatetimeTextView.setText(mTask.getTime());
+            if(mTask.isCompleted()) {
+                mSolvedTaskImageView.setVisibility(View.VISIBLE);
+            }
+            else {
+                mSolvedTaskImageView.setVisibility(View.INVISIBLE);
+            }
         }
 
         @Override
