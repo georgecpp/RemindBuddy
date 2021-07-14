@@ -56,10 +56,13 @@ public class TaskFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_task, container, false);
-        mTaskDate = (TextView) v.findViewById(R.id.task_date);
-        mTaskTime = (TextView) v.findViewById(R.id.task_time);
-        mTaskTitle = (TextView) v.findViewById(R.id.task_title);
-        mTaskDescription = (TextView) v.findViewById(R.id.task_description);
+//        mTaskDate = (TextView) v.findViewById(R.id.task_date);
+//        mTaskTime = (TextView) v.findViewById(R.id.task_time);
+//        mTaskTitle = (TextView) v.findViewById(R.id.task_title);
+//        mTaskDescription = (TextView) v.findViewById(R.id.task_description);
+
+          mTaskDate = (TextView) v.findViewById(R.id.task_date);
+          mTaskDate.setText(TaskListFragment.getCurrentDate());
 
         return v;
     }

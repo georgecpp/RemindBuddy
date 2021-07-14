@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Remind Buddy</string>
-    <string name="task_date">Date To Fill</string>
+    <string name="task_date">Task date</string>
     <string name="task_time">Time of the day to fill</string>
-    <string name="task_title">Title</string>
+    <string name="task_title">Task title</string>
     <string name="task_description">Description</string>
     <string name="current_date_string">Current Date</string>
     <string name="date_picker_title">Choose a date</string>
+    <string name="task_title_hint">Enter a title for the task</string>
 </resources>

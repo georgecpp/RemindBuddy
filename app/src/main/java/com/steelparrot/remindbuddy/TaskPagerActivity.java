@@ -34,7 +34,9 @@ public class TaskPagerActivity extends AppCompatActivity implements TaskFragment
 
         UUID taskID = (UUID) getIntent().getSerializableExtra(EXTRA_TASK_ID);
         mViewPager = (ViewPager) findViewById(R.id.task_view_pager);
-        mTasks = TaskHandler.get(this).getTasks();
+
+        //mTasks = TaskHandler.get(this).getTasks();     // old approach to get all tasks.
+        mTasks = TaskHandler.get(this).getTasksForToday(TaskListFragment.getCurrentDate());
         FragmentManager fragmentManager = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager,FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             @NonNull

@@ -7,38 +7,93 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <TextView
-        android:id="@+id/task_date"
-        style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/task_title_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:labelFor="@+id/task_date"
-        android:text="@string/task_date"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/task_title"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        />
+
+    <EditText
+        android:id="@+id/task_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/task_title_textview"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/task_title_hint"
+        android:inputType="text"
+        android:gravity="center"
+        android:background="@drawable/rounded_border_edittext"
+        android:padding="10dp"
+       />
 
     <TextView
-        style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/task_date_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/task_date"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/task_title"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:textStyle="bold"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/task_date_textview"
+        android:layout_margin="16dp"
+        >
+
+        <TextView
+            android:id="@+id/task_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/task_date"
+            android:text="@string/task_date"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <ImageButton
+            android:id="@+id/new_task_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/task_date"
+            android:src="@drawable/ic_baseline_edit_calendar_24"
+            android:background="@null"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
         android:id="@+id/task_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:labelFor="@+id/task_time"
         android:text="@string/task_time"
-        app:layout_constraintTop_toBottomOf="@+id/task_date"
+        app:layout_constraintTop_toBottomOf="parent"
         tools:layout_editor_absoluteX="0dp" />
 
-    <TextView
-        android:id="@+id/task_title"
-        style="?android:listSeparatorTextViewStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/task_title"
-        app:layout_constraintBottom_toTopOf="@+id/task_description"
-        tools:layout_editor_absoluteX="16dp" />
+
 
     <TextView
         android:id="@+id/task_description"
-        style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/task_description"
