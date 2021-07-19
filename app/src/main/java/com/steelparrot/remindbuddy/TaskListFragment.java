@@ -50,7 +50,7 @@ public class TaskListFragment extends Fragment {
     private RecyclerView mTaskRecyclerView;
     private TaskAdapter mAdapter;
     private Callbacks mCallbacks;
-    private String mCurrentDate;
+    private static String mCurrentDate;
 
 
     public void updateCurrentDateUI() {
@@ -221,7 +221,7 @@ public class TaskListFragment extends Fragment {
             super(inflater.inflate(R.layout.list_item_task,parent,false));
             itemView.setOnClickListener(this);
 
-            mTitleTextView = (TextView) itemView.findViewById(R.id.task_title);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.task_title_item);
             mDatetimeTextView = (TextView) itemView.findViewById(R.id.task_datetime);
             mSolvedTaskImageView = (ImageView) itemView.findViewById(R.id.task_solved);
             mSolvedTaskImageView.setFocusable(true);
@@ -277,6 +277,10 @@ public class TaskListFragment extends Fragment {
         }
     }
 
+    public static String getCurrentDate() {
+        return mCurrentDate;
+    }
+
     public void updateUI() {
         TaskHandler taskHandler = TaskHandler.get(getActivity());
         List<Task> tasks = taskHandler.getTasksForToday(mCurrentDate);
@@ -297,23 +301,27 @@ public class TaskListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCurrentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(new Date());
+        getActivity().registerReceiver(mDateChangedReceiver, new IntentFilter(Intent.ACTION_DATE_CHANGED));
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        getActivity().unregisterReceiver(mDateChangedReceiver);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().registerReceiver(mDateChangedReceiver, new IntentFilter(Intent.ACTION_DATE_CHANGED));
+        // old broadcast register
+//        getActivity().registerReceiver(mDateChangedReceiver, new IntentFilter(Intent.ACTION_DATE_CHANGED));
         updateUI();
     }
 
     @Override
     public void onPause() {
-        getActivity().unregisterReceiver(mDateChangedReceiver);
+        // old broadcast unregister
+//        getActivity().unregisterReceiver(mDateChangedReceiver);
         super.onPause();
     }
 
