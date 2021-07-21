@@ -21,6 +21,8 @@ public class TaskListActivity extends SingleFragmentActivity implements TaskList
     @Override
     public void onTaskUpdated(Task task) {
         // TO IMPLEMENT WHEN EDIT TASK IN EDITOR FRAGMENT.
+        TaskListFragment listFragment = (TaskListFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        listFragment.updateUI();
     }
 
 
