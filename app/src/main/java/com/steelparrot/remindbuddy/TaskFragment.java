@@ -203,6 +203,7 @@ public class TaskFragment extends Fragment {
         if(getActivity()!=null) {
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+        getActivity().setTitle(mTask.getTitle());
     }
 
     @Override
