@@ -1,6 +1,8 @@
 package com.steelparrot.remindbuddy;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -151,6 +153,7 @@ public class TaskListFragment extends Fragment {
             public void onClick(View view) {
                // String currentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(new Date());
                 String currentTime = new SimpleDateFormat("h:mm a", Locale.getDefault()).format(new Date());
+//                int notificationId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
                 Task task = new Task(UUID.randomUUID(),mCurrentDate,currentTime);
                 task.setTitle("Unnamed_Activity");
                 TaskHandler.get(getActivity()).addTask(task);

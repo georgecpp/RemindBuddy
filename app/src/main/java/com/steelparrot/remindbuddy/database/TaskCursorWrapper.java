@@ -31,6 +31,8 @@ public class TaskCursorWrapper extends CursorWrapper {
 //        Date dateTask = formatDDMMYYYY.parse(date);
 //        Date timeOfTheDayTask = formatHHMMSS.parse(time);
 
+//        int notificationId = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+
         Task task = new Task(UUID.fromString(uuidString),date,time);
         task.setTitle(title);
         task.setDescription(description);
