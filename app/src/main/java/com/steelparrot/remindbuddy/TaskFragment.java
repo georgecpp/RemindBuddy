@@ -208,12 +208,6 @@ public class TaskFragment extends Fragment {
 
     private void startAlarm(Calendar calendar) {
 
-        // enable the receiver for reboot situation.
-//        ComponentName receiver = new ComponentName(getContext(), AlertReceiver.class);
-//        PackageManager packageManager = getContext().getPackageManager();
-//        packageManager.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);
-
-
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getContext(), AlertReceiver.class);
         intent.putExtra("TaskTitle", mTask.getTitle());
@@ -227,6 +221,7 @@ public class TaskFragment extends Fragment {
         else {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
         }
+
     }
 
     private void cancelAlarm() {

@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.steelparrot.remindbuddy">
 
-
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -20,13 +19,15 @@
             </intent-filter>
         </receiver>
 
-<!--        <receiver android:name=".AlertReceiver"-->
-<!--                  android:enabled="false">-->
-<!--            <intent-filter >-->
-<!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
         <receiver android:name=".AlertReceiver" />
+
+        <receiver android:name=".AlertRebootReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".TaskListActivity">
             <intent-filter>
