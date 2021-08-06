@@ -130,7 +130,7 @@ public class TaskHandler {
                 whereArgs,
                 null,
                 null,
-                null
+                TaskTable.Cols.TIME
         );
 
         return new TaskCursorWrapper(cursor);

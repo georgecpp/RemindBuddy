@@ -44,6 +44,8 @@ public class TaskListFragment extends Fragment {
     private static final String DIALOG_DATE = "DialogDate";
 
     private static final int REQUEST_DATE = 0;
+    private static final int REQUEST_TASK_COMPLETED = 1;
+
 
     private FloatingActionButton mAddTaskFAB;
     private TextView mCurrentDateTextView;
@@ -211,6 +213,14 @@ public class TaskListFragment extends Fragment {
             mCurrentDateTextView.setText(mCurrentDate);
             updateUI();
         }
+
+        if(requestCode == REQUEST_TASK_COMPLETED) {
+            UUID taskId = UUID.fromString(data.getSerializableExtra("TaskId").toString());
+            TaskHandler.get(getContext()).getTask(taskId).setCompleted(true);
+            updateUI();
+        }
+
+
     }
 
     private class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -51,7 +51,7 @@ public class TaskFragment extends Fragment {
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0;
 
-
+    private int magicNumber = 0;
     private Task mTask;
     private TextView mTaskDate;
     private EditText mTaskTitle;
@@ -211,9 +211,11 @@ public class TaskFragment extends Fragment {
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getContext(), AlertReceiver.class);
         intent.putExtra("TaskTitle", mTask.getTitle());
-        int m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-        m += new Random().nextInt(100) + 1;
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), m, intent, 0);
+        intent.putExtra("TaskId", mTask.getID());
+        magicNumber = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+        magicNumber += new Random().nextInt(100) + 1;
+        intent.putExtra("NotificationId",magicNumber);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), magicNumber, intent, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
@@ -225,14 +227,10 @@ public class TaskFragment extends Fragment {
     }
 
     private void cancelAlarm() {
-        // disable the receiver for reboot situation.
-//        ComponentName receiver = new ComponentName(getContext(), AlertReceiver.class);
-//        PackageManager packageManager = getContext().getPackageManager();
-//        packageManager.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
 
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getContext(), AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), magicNumber, intent, 0);
 
         if(alarmManager!=null) {
             alarmManager.cancel(pendingIntent);

@@ -29,6 +29,8 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".CompleteTaskReceiver" />
+
         <activity android:name=".TaskListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +41,7 @@
         <activity android:name=".TaskPagerActivity"
             android:parentActivityName=".TaskListActivity">
         </activity>
+
     </application>
 
 </manifest>
