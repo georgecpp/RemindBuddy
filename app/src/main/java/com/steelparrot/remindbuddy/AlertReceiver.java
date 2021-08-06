@@ -15,13 +15,14 @@ import java.util.Random;
 
 public class AlertReceiver extends BroadcastReceiver {
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
-            NotificationHelper notificationHelper = new NotificationHelper(context, intent.getStringExtra("TaskTitle"));
+
+            int notificationId = intent.getIntExtra("NotificationId",0);
+            NotificationHelper notificationHelper = new NotificationHelper(context, intent.getStringExtra("TaskTitle"), intent.getSerializableExtra("TaskId").toString(), notificationId);
             NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
-            int m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
-            m += new Random().nextInt(100) + 1;
-            notificationHelper.getManager().notify(m,nb.build());
+//            int m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+//            m += new Random().nextInt(100) + 1;
+            notificationHelper.getManager().notify(notificationId,nb.build());
     }
 }
