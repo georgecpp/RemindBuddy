@@ -54,9 +54,10 @@ public class NotificationHelper extends ContextWrapper {
     public NotificationCompat.Builder getChannelNotification() {
 
         Intent taskListActivityIntent = new Intent(this, TaskListActivity.class);
+        taskListActivityIntent.putExtra("TaskId", mTaskId);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(taskListActivityIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(mNotificationId, PendingIntent.FLAG_UPDATE_CURRENT);
 //        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, taskListActivityIntent, 0);
 
 
