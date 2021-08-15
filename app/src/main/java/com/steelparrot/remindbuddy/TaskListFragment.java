@@ -7,6 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -28,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +42,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 
 public class TaskListFragment extends Fragment {
@@ -56,6 +62,7 @@ public class TaskListFragment extends Fragment {
     private TaskAdapter mAdapter;
     private Callbacks mCallbacks;
     private static String mCurrentDate;
+
 
 
     public void updateCurrentDateUI() {
@@ -78,7 +85,7 @@ public class TaskListFragment extends Fragment {
 
     public void setTaskRecyclerViewItemTouchListener()
     {
-        ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback itemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -86,11 +93,35 @@ public class TaskListFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                // TO IMPLEMENT.
+                if(direction!=ItemTouchHelper.LEFT) {
+                    return;
+                }
                 int position = viewHolder.getAdapterPosition();
                 Task task = mAdapter.mTasks.get(position);
+                Snackbar.make(mTaskRecyclerView, task.getTitle()+", Deleted.", Snackbar.LENGTH_LONG)
+                        .setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                TaskHandler.get(getActivity()).addTask(task);
+                                mAdapter.mTasks.add(position, task);
+                                mAdapter.notifyItemInserted(position);
+                            }
+                        }).show();
                 TaskHandler.get(getActivity()).deleteTask(task);
                 updateUI();
+            }
+
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_white_24)
+                        .addSwipeLeftBackgroundColor(Color.rgb(220,0,0))
+                        .create()
+                        .decorate();
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         };
 
@@ -147,6 +178,7 @@ public class TaskListFragment extends Fragment {
 
         mTaskRecyclerView = (RecyclerView) view.findViewById(R.id.task_recycler_view);
         mTaskRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        // FOR SWIPE OPTIONS
         setTaskRecyclerViewItemTouchListener();
 
 
