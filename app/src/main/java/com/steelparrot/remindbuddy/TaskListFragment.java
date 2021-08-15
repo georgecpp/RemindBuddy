@@ -36,6 +36,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -214,13 +215,6 @@ public class TaskListFragment extends Fragment {
             updateUI();
         }
 
-        if(requestCode == REQUEST_TASK_COMPLETED) {
-            UUID taskId = UUID.fromString(data.getSerializableExtra("TaskId").toString());
-            TaskHandler.get(getContext()).getTask(taskId).setCompleted(true);
-            updateUI();
-        }
-
-
     }
 
     private class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -317,6 +311,8 @@ public class TaskListFragment extends Fragment {
         getActivity().registerReceiver(mDateChangedReceiver, new IntentFilter(Intent.ACTION_DATE_CHANGED));
     }
 
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -326,10 +322,17 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // old broadcast register
-//        getActivity().registerReceiver(mDateChangedReceiver, new IntentFilter(Intent.ACTION_DATE_CHANGED));
+        Bundle extras = Objects.requireNonNull(getActivity()).getIntent().getExtras();
+        if(extras!=null) {
+            UUID taskId = UUID.fromString(extras.getSerializable("TaskId").toString());
+            Task mTask = TaskHandler.get(getContext()).getTask(taskId);
+            mTask.setCompleted(true);
+            TaskHandler.get(getContext()).updateTask(mTask);
+        }
         updateUI();
     }
+
+
 
     @Override
     public void onPause() {
@@ -349,4 +352,6 @@ public class TaskListFragment extends Fragment {
         super.onDetach();
         mCallbacks = null;
     }
+
+
 }
