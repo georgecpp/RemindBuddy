@@ -11,6 +11,7 @@ public class TaskDbSchema {
             public static final String COMPLETED="completed";
             public static final String DATE="date";
             public static final String TIME="time";
+            public static final String NOTIFICATIONID="notificationId";
         }
     }
 }

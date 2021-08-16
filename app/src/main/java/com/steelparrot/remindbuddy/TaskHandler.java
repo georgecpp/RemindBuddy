@@ -118,6 +118,7 @@ public class TaskHandler {
         values.put(TaskTable.Cols.COMPLETED, task.isCompleted()? 1 : 0);
         values.put(TaskTable.Cols.DATE, task.getDate());
         values.put(TaskTable.Cols.TIME,task.getTime());
+        values.put(TaskTable.Cols.NOTIFICATIONID, task.getNotificationIdAssigned());
 
         return values;
     }
