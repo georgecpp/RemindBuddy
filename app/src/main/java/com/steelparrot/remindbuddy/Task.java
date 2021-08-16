@@ -10,6 +10,7 @@ public class Task {
     private boolean mCompleted;
     private String mDate;
     private String mTime;
+    private int mNotificationIdAssigned;
 
     public Task(UUID id, String dateTo, String timeTo)
     {
@@ -66,4 +67,11 @@ public class Task {
         mTime = time;
     }
 
+    public int getNotificationIdAssigned() {
+        return mNotificationIdAssigned;
+    }
+
+    public void setNotificationIdAssigned(int notificationIdAssigned) {
+        mNotificationIdAssigned = notificationIdAssigned;
+    }
 }

@@ -22,7 +22,8 @@ public class TaskBaseHelper extends SQLiteOpenHelper {
                 TaskTable.Cols.DESCRIPTION+", "+
                 TaskTable.Cols.COMPLETED+", "+
                 TaskTable.Cols.DATE+", "+
-                TaskTable.Cols.TIME+
+                TaskTable.Cols.TIME+", "+
+                TaskTable.Cols.NOTIFICATIONID+
                 ")"
         );
     }

@@ -175,7 +175,7 @@ public class TaskFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_task_menu,menu);
-        MenuItem menuItem = menu.findItem(R.id.save_task_item);
+        MenuItem saveMenuItem = menu.findItem(R.id.save_task_item);
     }
 
 
@@ -194,8 +194,8 @@ public class TaskFragment extends Fragment {
                     calendar.set(Calendar.MINUTE, mTaskTimeOfTheDay.getMinute());
                     String currentTimeSet = new SimpleDateFormat("h:mm a", Locale.getDefault()).format(calendar.getTime());
                     mTask.setTime(currentTimeSet);
-                    updateTask();
                     startAlarm(calendar);
+                    updateTask();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -217,6 +217,7 @@ public class TaskFragment extends Fragment {
         magicNumber = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
         magicNumber += new Random().nextInt(100) + 1;
         intent.putExtra("NotificationId",magicNumber);
+        mTask.setNotificationIdAssigned(magicNumber);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), magicNumber, intent, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

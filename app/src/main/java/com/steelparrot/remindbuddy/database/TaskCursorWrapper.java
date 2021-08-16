@@ -24,6 +24,7 @@ public class TaskCursorWrapper extends CursorWrapper {
         int isCompleted = getInt(getColumnIndex(TaskTable.Cols.COMPLETED));
         String date = getString(getColumnIndex(TaskTable.Cols.DATE));
         String time = getString(getColumnIndex(TaskTable.Cols.TIME));
+        int notificationId = getInt(getColumnIndex(TaskTable.Cols.NOTIFICATIONID));
 
 //        SimpleDateFormat formatDDMMYYYY = new SimpleDateFormat("dd/MM/yyyy");
 //        SimpleDateFormat formatHHMMSS = new SimpleDateFormat("HH:mm:ss");
@@ -37,6 +38,7 @@ public class TaskCursorWrapper extends CursorWrapper {
         task.setTitle(title);
         task.setDescription(description);
         task.setCompleted(isCompleted!=0);
+        task.setNotificationIdAssigned(notificationId);
 
         return task;
     }

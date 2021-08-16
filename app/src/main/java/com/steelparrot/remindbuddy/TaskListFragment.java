@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,11 +37,14 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
@@ -98,15 +102,19 @@ public class TaskListFragment extends Fragment {
                 }
                 int position = viewHolder.getAdapterPosition();
                 Task task = mAdapter.mTasks.get(position);
-                Snackbar.make(mTaskRecyclerView, task.getTitle()+", Deleted.", Snackbar.LENGTH_LONG)
+                Snackbar.make(mTaskRecyclerView, task.getTitle()+", deleted.", Snackbar.LENGTH_LONG)
                         .setAction("Undo", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 TaskHandler.get(getActivity()).addTask(task);
+                                startBackAlarmForTask(task);
                                 mAdapter.mTasks.add(position, task);
                                 mAdapter.notifyItemInserted(position);
                             }
                         }).show();
+                if(task.getNotificationIdAssigned()!=-1) {
+                    cancelAlarmForTask(task);
+                }
                 TaskHandler.get(getActivity()).deleteTask(task);
                 updateUI();
             }
@@ -385,5 +393,60 @@ public class TaskListFragment extends Fragment {
         mCallbacks = null;
     }
 
+    private void cancelAlarmForTask(Task taskWithNotification) {
 
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), taskWithNotification.getNotificationIdAssigned(), intent, 0);
+
+        if(alarmManager!=null) {
+            alarmManager.cancel(pendingIntent);
+        }
+    }
+
+    private void startBackAlarmForTask(Task taskWithNotification) {
+
+        // get the calendar object
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
+        try {
+            calendar.setTime(sdf.parse(taskWithNotification.getDate()));
+            calendar.set(Calendar.HOUR,getCalendarHourFromTaskTime(taskWithNotification.getTime()));
+            calendar.set(Calendar.MINUTE,getCalendarMinuteFromTaskTime(taskWithNotification.getTime()));
+            calendar.set(Calendar.AM_PM,getCalendarAM_PM_FromTaskTime(taskWithNotification.getTime()));
+            AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(getContext(), AlertReceiver.class);
+            intent.putExtra("TaskTitle", taskWithNotification.getTitle());
+            intent.putExtra("TaskId", taskWithNotification.getID());
+            intent.putExtra("NotificationId",taskWithNotification.getNotificationIdAssigned());
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), taskWithNotification.getNotificationIdAssigned(), intent, 0);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            }
+            else {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int getCalendarHourFromTaskTime(String taskTime) {
+        return Integer.parseInt(taskTime.split(":")[0]);
+    }
+
+    private int getCalendarMinuteFromTaskTime(String taskTime) {
+        return Integer.parseInt(taskTime.split(":")[1].split(" ")[0]);
+    }
+
+    private int getCalendarAM_PM_FromTaskTime(String taskTime) {
+        if(taskTime.contains("AM")) {
+            return Calendar.AM;
+        }
+        else {
+            return Calendar.PM;
+        }
+    }
 }
