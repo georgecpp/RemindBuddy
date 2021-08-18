@@ -15,6 +15,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -142,6 +145,23 @@ public class TaskListFragment extends Fragment {
         calendar.setTime(date);
         calendar.add(Calendar.DATE, days);
         return calendar.getTime();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_task_list_menu,menu);
+        MenuItem optionsMenuItem = menu.findItem(R.id.task_list_voice_toggler);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.task_list_voice_toggler:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Nullable
@@ -349,6 +369,7 @@ public class TaskListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mCurrentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault()).format(new Date());
         getActivity().registerReceiver(mDateChangedReceiver, new IntentFilter(Intent.ACTION_DATE_CHANGED));
+        setHasOptionsMenu(true);
     }
 
 
