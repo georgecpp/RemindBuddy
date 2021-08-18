@@ -8,4 +8,7 @@
     <string name="date_picker_title">Choose a date</string>
     <string name="task_title_hint">Enter a title for the task</string>
     <string name="save_task_menuitem">Save task</string>
+    <string name="task_list_options_item">Options</string>
+    <string name="task_list_voice_toggle_ON">Turn Voice ON</string>
+    <string name="task_list_voice_toggle_OFF">Turn Voice OFF</string>
 </resources>
