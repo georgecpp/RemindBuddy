@@ -32,12 +32,14 @@ public class AlertReceiver extends BroadcastReceiver {
             NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
             notificationHelper.getManager().notify(notificationId,nb.build());
 
-
-            WorkManager workManager = WorkManager.getInstance(context);
-            Data.Builder dataBuilder = new Data.Builder();
-            dataBuilder.putString("TaskTitle", intent.getStringExtra("TaskTitle"));
-            dataBuilder.putInt("NotificationId", notificationId);
-            workManager.enqueue(new OneTimeWorkRequest.Builder(SpeakWorker.class).setInputData(dataBuilder.build()).build());
-
+            SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+            boolean voiceON_OFF = sharedPreferences.getBoolean(context.getString(R.string.voice_on_off),true);
+            if(voiceON_OFF) {
+                WorkManager workManager = WorkManager.getInstance(context);
+                Data.Builder dataBuilder = new Data.Builder();
+                dataBuilder.putString("TaskTitle", intent.getStringExtra("TaskTitle"));
+                dataBuilder.putInt("NotificationId", notificationId);
+                workManager.enqueue(new OneTimeWorkRequest.Builder(SpeakWorker.class).setInputData(dataBuilder.build()).build());
+            }
     }
 }
