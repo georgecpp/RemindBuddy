@@ -6,15 +6,15 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:minHeight="?android:attr/actionBarSize"
-    android:background="@color/teal_200"
-    app:theme="@style/Widget.AppCompat.Toolbar"
-    >
+    android:background="@color/navy_blue"
+    android:elevation="4dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Toolbar Title"
-        android:layout_gravity="center"
-        android:id="@+id/toolbar_title" />
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Toolbar Title"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:id="@+id/toolbar_title" />-->
 
 </androidx.appcompat.widget.Toolbar>

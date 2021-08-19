@@ -7,6 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/toolbar_fragment_task"
+        layout="@layout/toolbar_task" />
 
     <TextView
         android:id="@+id/task_title_textview"
@@ -15,7 +18,7 @@
         android:text="@string/task_title"
         android:textSize="20sp"
         android:textColor="@color/black"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_task"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:textStyle="bold"
@@ -72,9 +75,9 @@
             android:id="@+id/new_task_date_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="100dp"
+            android:layout_marginEnd="120dp"
             android:background="@null"
-            android:src="@drawable/ic_baseline_edit_calendar_24"
+            android:src="@drawable/ic_baseline_edit_calendar_navy_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/task_date"
