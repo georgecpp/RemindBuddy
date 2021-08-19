@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.media.Image;
@@ -60,7 +61,7 @@ public class TaskListFragment extends Fragment {
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_TASK_COMPLETED = 1;
 
-
+    private boolean voiceON_OFF;
     private FloatingActionButton mAddTaskFAB;
     private TextView mCurrentDateTextView;
     private ImageButton mDateNextButton;
@@ -69,6 +70,7 @@ public class TaskListFragment extends Fragment {
     private TaskAdapter mAdapter;
     private Callbacks mCallbacks;
     private static String mCurrentDate;
+    private MenuItem optionsMenuItem;
 
 
 
@@ -151,13 +153,36 @@ public class TaskListFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_task_list_menu,menu);
-        MenuItem optionsMenuItem = menu.findItem(R.id.task_list_voice_toggler);
+        optionsMenuItem = menu.findItem(R.id.task_list_voice_toggler);
+        Context context = getActivity();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+        boolean voiceON_OFF_sharedpref = sharedPreferences.getBoolean(context.getString(R.string.voice_on_off),true);
+        if(!voiceON_OFF_sharedpref) {
+            optionsMenuItem.setTitle(R.string.task_list_voice_toggle_ON);
+            voiceON_OFF = false;
+        }
+        else {
+            optionsMenuItem.setTitle(R.string.task_list_voice_toggle_OFF);
+            voiceON_OFF = true;
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.task_list_voice_toggler:
+                voiceON_OFF=!voiceON_OFF;
+                if(!voiceON_OFF) {
+                    optionsMenuItem.setTitle(R.string.task_list_voice_toggle_ON);
+                }
+                else {
+                    optionsMenuItem.setTitle(R.string.task_list_voice_toggle_OFF);
+                }
+                Context context = getActivity();
+                SharedPreferences sharedPreferences = context.getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(getString(R.string.voice_on_off),voiceON_OFF);
+                editor.apply();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
