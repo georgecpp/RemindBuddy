@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.RemindBuddy" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.RemindBuddy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -12,5 +12,13 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:timePickerStyle">@style/myTimePickerStyle</item>
+    </style>
+
+    <style name="myTimePickerStyle" parent="@android:style/Widget.Material.Light.TimePicker">
+        <item name="android:numbersTextColor">@color/white</item>
+        <item name="android:numbersBackgroundColor">#b3b3b3</item>
+        <item name="android:numbersSelectorColor">@color/navy_blue</item>
+        <item name="android:headerBackground">@color/navy_blue</item>
     </style>
 </resources>

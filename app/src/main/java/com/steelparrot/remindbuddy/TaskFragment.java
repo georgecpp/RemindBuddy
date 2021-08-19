@@ -22,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -34,6 +35,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -58,6 +60,7 @@ public class TaskFragment extends Fragment {
     private EditText mTaskTitle;
     private ImageButton mNewTaskDateButton;
     private TimePicker mTaskTimeOfTheDay;
+    private Toolbar mToolbar;
 
     private Callbacks mCallbacks;
 
@@ -81,7 +84,6 @@ public class TaskFragment extends Fragment {
         UUID taskID = (UUID) getArguments().getSerializable(ARG_TASK_ID);
         mTask = TaskHandler.get(getActivity()).getTask(taskID);
         setHasOptionsMenu(true);
-
     }
 
     private void updateTask() {
@@ -127,7 +129,6 @@ public class TaskFragment extends Fragment {
 //        }
 
           View v = inflater.inflate(R.layout.fragment_task, container, false);
-
 
           mTaskDate = (TextView) v.findViewById(R.id.task_date);
           mTaskDate.setText(TaskListFragment.getCurrentDate());
@@ -194,6 +195,9 @@ public class TaskFragment extends Fragment {
                     calendar.set(Calendar.MINUTE, mTaskTimeOfTheDay.getMinute());
                     String currentTimeSet = new SimpleDateFormat("h:mm a", Locale.getDefault()).format(calendar.getTime());
                     mTask.setTime(currentTimeSet);
+                    if(mTask.getNotificationIdAssigned()!=-1) {
+                        cancelAlarm();
+                    }
                     startAlarm(calendar);
                     updateTask();
                 } catch (ParseException e) {
@@ -233,7 +237,7 @@ public class TaskFragment extends Fragment {
 
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getContext(), AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), magicNumber, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), mTask.getNotificationIdAssigned(), intent, 0);
 
         if(alarmManager!=null) {
             alarmManager.cancel(pendingIntent);

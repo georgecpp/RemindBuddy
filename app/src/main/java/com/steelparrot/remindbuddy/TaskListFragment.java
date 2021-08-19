@@ -28,6 +28,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -71,6 +73,7 @@ public class TaskListFragment extends Fragment {
     private Callbacks mCallbacks;
     private static String mCurrentDate;
     private MenuItem optionsMenuItem;
+    private Toolbar mToolbar;
 
 
 
@@ -193,6 +196,9 @@ public class TaskListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
+
+        mToolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
 
         mCurrentDateTextView = (TextView) view.findViewById(R.id.current_date_view);
         mCurrentDateTextView.setText(mCurrentDate);

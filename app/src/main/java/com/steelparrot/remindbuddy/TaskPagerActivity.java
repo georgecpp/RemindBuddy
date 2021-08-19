@@ -3,10 +3,13 @@ package com.steelparrot.remindbuddy;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -20,6 +23,8 @@ public class TaskPagerActivity extends AppCompatActivity implements TaskFragment
     private static final String EXTRA_TASK_ID = "com.steelparrot.remindbuddy.task_id";
     private ViewPager mViewPager;
     private List<Task> mTasks;
+    private Toolbar mToolbar;
+
 
     public static Intent newIntent(Context packageContext, UUID taskID) {
         Intent intent = new Intent(packageContext, TaskPagerActivity.class);
@@ -31,6 +36,10 @@ public class TaskPagerActivity extends AppCompatActivity implements TaskFragment
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_pager);
+        mToolbar = findViewById(R.id.toolbar_fragment_task);
+        setSupportActionBar(mToolbar);
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.navy_blue));
 
         UUID taskID = (UUID) getIntent().getSerializableExtra(EXTRA_TASK_ID);
         mViewPager = (ViewPager) findViewById(R.id.task_view_pager);

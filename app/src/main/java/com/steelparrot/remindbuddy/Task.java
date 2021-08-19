@@ -17,6 +17,7 @@ public class Task {
         mID = id;
         mDate = dateTo;
         mTime = timeTo;
+        mNotificationIdAssigned = -1;
     }
 
     public UUID getID() {
