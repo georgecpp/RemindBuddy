@@ -30,7 +30,6 @@ public class SpeakWorker extends Worker implements TextToSpeech.OnInitListener {
     @NonNull
     @Override
     public Result doWork() {
-        Log.d(TAG,"DOING SPEAK WORK ON BACKGROUND");
         return Result.success();
     }
 

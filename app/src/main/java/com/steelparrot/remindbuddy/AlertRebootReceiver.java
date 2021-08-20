@@ -21,7 +21,6 @@ public class AlertRebootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if(intent.getAction().equals("android.intent.action.BOOT_COMPLETED") || intent.getAction().equals("android.intent.action.QUICKBOOT_POWERON")) {
 
-            Log.i("REBOOT_RECEIVER","Dupa reboot!!!");
             // set the alarms again.
             // iterate through all tasks for today's date and turn on alarms on TimeSet.
             List<Task> mTasks = TaskHandler.get(context).getTasksForToday(TaskListFragment.getCurrentDate());
