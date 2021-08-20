@@ -12,7 +12,6 @@ public class DateChangedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_DATE_CHANGED)) {
-            Log.i(TAG, "ACTION_DATE_CHANGED received");
         }
     }
 }
