@@ -37,6 +37,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -196,6 +199,12 @@ public class TaskListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
+
+        MobileAds.initialize(Objects.requireNonNull(getActivity()));
+        AdView mBannerAdView = (AdView) view.findViewById(R.id.bannerAdView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mBannerAdView.loadAd(adRequest);
+
 
         mToolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);

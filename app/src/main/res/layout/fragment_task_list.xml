@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
@@ -58,14 +58,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="125dp"
+        android:layout_marginBottom="60dp"
         android:id="@+id/task_recycler_view"
-        android:scrollbars="vertical"/>
-<!--        android:cacheColorHint="@android:color/transparent"-->
-<!--        />-->
+        android:scrollbars="vertical"
+        android:scrollbarThumbVertical="@drawable/custom_scroll_bar"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_task_fab"
@@ -77,12 +79,23 @@
         android:padding="16dp"
         android:scaleType="center"
         android:elevation="8dp"
-        android:layout_margin="20dp"
+        android:layout_marginBottom="75dp"
+        android:layout_marginEnd="20dp"
         fab:backgroundTint="@color/navy_blue"
         app:tint="@color/white"
         android:src="@drawable/ic_baseline_add_white_24"
         android:layout_gravity="bottom|right"
         />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/bannerAdView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        android:layout_gravity="bottom|center">
+
+    </com.google.android.gms.ads.AdView>
 
 </FrameLayout>
 
