@@ -1,114 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <include
-        android:id="@+id/toolbar_fragment_task"
-        layout="@layout/toolbar_task" />
-
-    <TextView
-        android:id="@+id/task_title_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/task_title"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_task"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold"
-        />
-
-    <EditText
-        android:id="@+id/task_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/task_title_textview"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="10dp"
-        android:hint="@string/task_title_hint"
-        android:inputType="text"
-        android:gravity="center"
-        android:background="@drawable/rounded_border_edittext"
-        android:padding="10dp"
-       />
-
-    <TextView
-        android:id="@+id/task_date_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/task_date"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/task_title"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:textStyle="bold"
-        />
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/task_date_textview"
-        tools:layout_editor_absoluteX="16dp">
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/toolbar_fragment_task"
+            layout="@layout/toolbar_task" />
 
         <TextView
-            android:id="@+id/task_date"
-            android:layout_width="wrap_content"
+            android:id="@+id/task_title_textview"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:labelFor="@+id/task_date"
-            android:text="@string/task_date"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/task_title"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_task"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            />
 
-        <ImageButton
-            android:id="@+id/new_task_date_button"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/task_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="120dp"
-            android:background="@null"
-            android:src="@drawable/ic_baseline_edit_calendar_navy_24"
+            app:layout_constraintTop_toBottomOf="@+id/task_title_textview"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/task_title_hint"
+            android:inputType="text"
+            android:gravity="center"
+            android:background="@drawable/rounded_border_edittext"
+            android:padding="10dp"
+            />
+
+        <TextView
+            android:id="@+id/task_date_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/task_date"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/task_title"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:textStyle="bold"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/task_date_textview"
+            tools:layout_editor_absoluteX="16dp">
+
+            <TextView
+                android:id="@+id/task_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/task_date"
+                android:text="@string/task_date"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/new_task_date_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="120dp"
+                android:background="@null"
+                android:src="@drawable/ic_baseline_edit_calendar_navy_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/task_date"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/task_time_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/task_time_textview"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="35dp"/>
+
+        <TimePicker
+            android:id="@+id/task_timepicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:timePickerMode="clock"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/task_date"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/task_time_textview" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <TextView
-        android:id="@+id/task_time_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/task_time_textview"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="35dp"/>
-
-    <TimePicker
-        android:id="@+id/task_timepicker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:timePickerMode="clock"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_time_textview" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
