@@ -43,6 +43,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -80,6 +81,7 @@ public class TaskListFragment extends Fragment {
     private static String mCurrentDate;
     private MenuItem optionsMenuItem;
     private Toolbar mToolbar;
+    private static Serializable onceUsedTaskId = null;
 
 
 
@@ -116,7 +118,7 @@ public class TaskListFragment extends Fragment {
                 }
                 int position = viewHolder.getAdapterPosition();
                 Task task = mAdapter.mTasks.get(position);
-                Snackbar.make(mTaskRecyclerView, task.getTitle()+", deleted.", Snackbar.LENGTH_LONG)
+                Snackbar.make(mTaskRecyclerView, task.getTitle()+", deleted.", Snackbar.LENGTH_SHORT)
                         .setAction("Undo", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -126,7 +128,7 @@ public class TaskListFragment extends Fragment {
                                 mAdapter.notifyItemInserted(position);
                             }
                         }).show();
-                if(task.getNotificationIdAssigned()!=-1) {
+                if(!task.isCompleted() && task.getNotificationIdAssigned()!=-1) {
                     cancelAlarmForTask(task);
                 }
                 TaskHandler.get(getActivity()).deleteTask(task);
@@ -203,7 +205,7 @@ public class TaskListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
 
-        MobileAds.initialize(Objects.requireNonNull(getActivity()));
+        MobileAds.initialize(requireActivity());
         AdView mBannerAdView = (AdView) view.findViewById(R.id.bannerAdView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mBannerAdView.loadAd(adRequest);
@@ -456,9 +458,10 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Bundle extras = Objects.requireNonNull(getActivity()).getIntent().getExtras();
-        if(extras!=null) {
+        Bundle extras = requireActivity().getIntent().getExtras();
+        if(extras!=null && !extras.getSerializable("TaskId").equals(onceUsedTaskId)) {
             UUID taskId = UUID.fromString(extras.getSerializable("TaskId").toString());
+            onceUsedTaskId = taskId;
             Task mTask = TaskHandler.get(getContext()).getTask(taskId);
             mTask.setCompleted(true);
             TaskHandler.get(getContext()).updateTask(mTask);

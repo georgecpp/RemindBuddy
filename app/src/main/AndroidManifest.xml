@@ -44,7 +44,8 @@
         <receiver android:name=".CompleteTaskReceiver" />
 
         <activity android:name=".TaskListActivity"
-            android:parentActivityName=".SplashActivity">
+            android:parentActivityName=".SplashActivity"
+            >
         </activity>
         <activity
             android:name=".TaskPagerActivity"
