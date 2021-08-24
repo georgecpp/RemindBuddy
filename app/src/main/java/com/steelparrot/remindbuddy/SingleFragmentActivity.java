@@ -1,6 +1,10 @@
 package com.steelparrot.remindbuddy;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -29,6 +33,18 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 //        getSupportActionBar().hide();
         // end
         setContentView(getLayoutResId());
+
+//        Context context = this;
+//        final Handler handler = new Handler(Looper.getMainLooper());
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = new Intent(context, SplashActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        }, 3000);
+
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
