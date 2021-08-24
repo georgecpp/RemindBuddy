@@ -43,12 +43,15 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -391,6 +394,7 @@ public class TaskListFragment extends Fragment {
     public void updateUI() {
         TaskHandler taskHandler = TaskHandler.get(getActivity());
         List<Task> tasks = taskHandler.getTasksForToday(mCurrentDate);
+        Collections.sort(tasks, new TimeComparator());
 
         if(mAdapter == null) {
             mAdapter = new TaskAdapter(tasks);
@@ -404,6 +408,8 @@ public class TaskListFragment extends Fragment {
     }
 
 
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -412,7 +418,34 @@ public class TaskListFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    private class TimeComparator implements Comparator<Task> {
+        private DateFormat primaryFormat = new SimpleDateFormat("h:mm a");
+        private DateFormat secondaryFormat = new SimpleDateFormat("H:mm");
 
+        @Override
+        public int compare(Task task, Task t1) {
+            return timeInMillis(task.getTime()) - timeInMillis(t1.getTime());
+        }
+
+
+        public int timeInMillis(String time) {
+            return timeInMillis(time, primaryFormat);
+        }
+
+        private int timeInMillis(String time, DateFormat format) {
+            // you may need more advanced logic here when parsing the time if some times have am/pm and others don't.
+            try {
+                Date date = format.parse(time);
+                return (int) date.getTime();
+            } catch (ParseException e) {
+                if (format != secondaryFormat) {
+                    return timeInMillis(time, secondaryFormat);
+                }
+            }
+            return -1;
+        }
+
+    }
 
     @Override
     public void onDestroy() {
