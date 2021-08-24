@@ -53,7 +53,7 @@ public class NotificationHelper extends ContextWrapper {
 
     public NotificationCompat.Builder getChannelNotification() {
 
-        Intent taskListActivityIntent = new Intent(this, TaskListActivity.class);
+        Intent taskListActivityIntent = new Intent(this, SplashActivity.class);
         taskListActivityIntent.putExtra("TaskId", mTaskId);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addNextIntentWithParentStack(taskListActivityIntent);
@@ -69,10 +69,10 @@ public class NotificationHelper extends ContextWrapper {
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
                 .setContentTitle(mTaskTitle)
                 .setContentText("Do not forget to complete the task!")
-                .setColor(Color.GREEN)
+                .setColor(getColor(R.color.navy_blue))
                 .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
-                .addAction(R.mipmap.ic_launcher, "Complete task", actionIntent)
-                .setSmallIcon(R.drawable.ic_baseline_android_24);
+                .addAction(R.mipmap.ic_launcher_remindbuddy, "Complete task", actionIntent)
+                .setSmallIcon(R.drawable.ic_baseline_campaign_48);
     }
 }
