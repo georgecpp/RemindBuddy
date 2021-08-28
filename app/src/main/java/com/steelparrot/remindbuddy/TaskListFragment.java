@@ -204,13 +204,12 @@ public class TaskListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
-
-        MobileAds.initialize(requireActivity());
-        AdView mBannerAdView = (AdView) view.findViewById(R.id.bannerAdView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mBannerAdView.loadAd(adRequest);
-
-
+        if(getActivity()!=null) {
+            MobileAds.initialize(requireActivity());
+            AdView mBannerAdView = (AdView) view.findViewById(R.id.bannerAdView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mBannerAdView.loadAd(adRequest);
+        }
         mToolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
 
@@ -458,13 +457,19 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Bundle extras = requireActivity().getIntent().getExtras();
-        if(extras!=null && !extras.getSerializable("TaskId").equals(onceUsedTaskId)) {
-            UUID taskId = UUID.fromString(extras.getSerializable("TaskId").toString());
-            onceUsedTaskId = taskId;
-            Task mTask = TaskHandler.get(getContext()).getTask(taskId);
-            mTask.setCompleted(true);
-            TaskHandler.get(getContext()).updateTask(mTask);
+        if(getActivity()!=null) {
+            if(requireActivity().getIntent()!=null) {
+                Bundle extras = requireActivity().getIntent().getExtras();
+                if(extras!=null ) {
+                     if(extras.getSerializable("TaskId")!=null && !extras.getSerializable("TaskId").equals(onceUsedTaskId)) {
+                         UUID taskId = UUID.fromString(extras.getSerializable("TaskId").toString());
+                        onceUsedTaskId = taskId;
+                        Task mTask = TaskHandler.get(getContext()).getTask(taskId);
+                        mTask.setCompleted(true);
+                        TaskHandler.get(getContext()).updateTask(mTask);
+                     }
+                }
+            }
         }
         updateUI();
     }
