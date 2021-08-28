@@ -29,8 +29,12 @@ public class SplashActivity extends Activity {
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
                 Intent mainIntent = new Intent(SplashActivity.this, TaskListActivity.class);
-                if(getIntent().getExtras()!=null) {
-                    mainIntent.putExtra("TaskId", getIntent().getSerializableExtra("TaskId"));
+                if(getIntent()!=null) {
+                    if(getIntent().getExtras()!=null) {
+                        if(getIntent().getSerializableExtra("TaskId")!=null) {
+                            mainIntent.putExtra("TaskId", getIntent().getSerializableExtra("TaskId"));
+                        }
+                    }
                 }
                 SplashActivity.this.startActivity(mainIntent);
                 SplashActivity.this.finish();
